@@ -1,3 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="services.phones" %>
+<%@ page import="java.util.ArrayList" %>
+
 <html>
 
 <head>
@@ -103,6 +107,46 @@
             </h1>
         </section>
 
+        <%--<section class="content">--%>
+            <%--<% ArrayList<phones> pd = (ArrayList<phones>)request.getAttribute("phone_details");--%>
+            <%--%>--%>
+
+            <%--<table class="table table-bordered">--%>
+                <%--<tr>--%>
+                    <%--<th>Phone ID</th>--%>
+                    <%--<th>Brand</th>--%>
+                    <%--<th>Code</th>--%>
+                    <%--<th>Storage</th>--%>
+                    <%--<th>Display</th>--%>
+                    <%--<th>Battery</th>--%>
+                    <%--<th>Front Cam</th>--%>
+                    <%--<th>Rear Cam</th>--%>
+                    <%--<th>Price</th>--%>
+                <%--</tr>--%>
+
+
+                <%--<%--%>
+                    <%--for(int i=0; i<pd.size(); i++){--%>
+                <%--%>--%>
+
+                <%--<tr>--%>
+                        <%--<td><%= pd.get(i).getPhone_id()%></td>--%>
+                        <%--<td><%= pd.get(i).getBrand()%></td>--%>
+                        <%--<td><%= pd.get(i).getCode()%></td>--%>
+                        <%--<td><%= pd.get(i).getStorage()%></td>--%>
+                        <%--<td><%= pd.get(i).getDisplay()%></td>--%>
+                        <%--<td><%= pd.get(i).getBattery()%></td>--%>
+                        <%--<td><%= pd.get(i).getFront_cam()%></td>--%>
+                        <%--<td><%= pd.get(i).getRear_cam()%></td>--%>
+                        <%--<td><%= pd.get(i).getPrice()%></td>--%>
+                <%--</tr>--%>
+                <%--<%--%>
+
+                    <%--}--%>
+                <%--%>--%>
+
+            <%--</table>--%>
+        <%--</section>--%>
 
 
         <!-- Main content -->

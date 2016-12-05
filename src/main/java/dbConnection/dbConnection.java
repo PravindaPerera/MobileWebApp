@@ -23,46 +23,6 @@ public class dbConnection {
         }
     }
 
-    public phones[] getData() throws SQLException {
-
-        int count = 0;
-        int index = 0;
-        String query = "SELECT COUNT(*) AS total FROM phones";
-        rs = st.executeQuery(query);
-
-        if(rs.next()){
-            count = rs.getInt("total");
-        }
-
-        phones[] pd = new phones[count];
-
-
-        try{
-            query = "SELECT * FROM phones";
-            rs = st.executeQuery(query);
-
-            while(rs.next()){
-                pd[index] = new phones();
-                pd[index].setPhone_id(rs.getInt("phone_id"));
-                pd[index].setBrand(rs.getString("brand"));
-                pd[index].setCode(rs.getString("code_id"));
-                pd[index].setStorage(rs.getString("storage"));
-                pd[index].setDisplay(rs.getString("display"));
-                pd[index].setBattery(rs.getString("battery"));
-                pd[index].setFront_cam(rs.getString("front_cam"));
-                pd[index].setRear_cam(rs.getString("rear_cam"));
-                pd[index].setPrice(rs.getDouble("price"));
-                index ++;
-            }
-
-
-        }
-        catch(Exception ex){
-
-        }
-        return pd;
-    }
-
     public boolean checkLogin(String uname, String pword) throws SQLException {
         String query = "SELECT * FROM login";
         rs = st.executeQuery(query);
@@ -105,6 +65,55 @@ public class dbConnection {
         preparedStmt.setString (2, pword);
         preparedStmt.execute();
         return true;
+    }
+
+    public phones[] getData() throws SQLException {
+
+        int count = 0;
+        int index = 0;
+        String query = "SELECT COUNT(*) AS total FROM phones";
+        rs = st.executeQuery(query);
+
+        if(rs.next()){
+            count = rs.getInt("total");
+        }
+
+        phones[] pd = new phones[count];
+
+
+        try{
+            query = "SELECT * FROM phones";
+            rs = st.executeQuery(query);
+
+            while(rs.next()){
+                pd[index] = new phones();
+                pd[index].setPhone_id(rs.getInt("phone_id"));
+                pd[index].setBrand(rs.getString("brand"));
+                pd[index].setCode(rs.getString("code_id"));
+                pd[index].setStorage(rs.getString("storage"));
+                pd[index].setDisplay(rs.getString("display"));
+                pd[index].setBattery(rs.getString("battery"));
+                pd[index].setFront_cam(rs.getString("front_cam"));
+                pd[index].setRear_cam(rs.getString("rear_cam"));
+                pd[index].setPrice(rs.getDouble("price"));
+                index ++;
+            }
+
+
+        }
+        catch(Exception ex){
+
+        }
+        return pd;
+    }
+
+    public void postComment(int id, String comment) throws SQLException {
+
+        String query = "INSERT INTO comments (phone_id, comment) VALUES (?,?)";
+        PreparedStatement preparedStmt = con.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        preparedStmt.setString (2, comment);
+        preparedStmt.execute();
     }
     
     public phones[] getPhonesByBrand(String brand) throws SQLException {

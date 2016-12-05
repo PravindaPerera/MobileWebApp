@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name="hello", urlPatterns= "/hello")
+@WebServlet(name="hello", urlPatterns= "")
 public class HelloServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,7 +21,6 @@ public class HelloServlet extends HttpServlet{
             phones[] phoneDetails = databaseCon.getData();
             ArrayList<phones> phoneList = new ArrayList<phones>();
             for(int i=0; i<phoneDetails.length; i++){
-                //System.out.println(phoneDetails[i].getCode());
                 phoneList.add(phoneDetails[i]);
 
             }
@@ -31,7 +30,7 @@ public class HelloServlet extends HttpServlet{
             e.printStackTrace();
         }
 
-        req.getRequestDispatcher("/home.jsp").forward(req,resp);
+        req.getRequestDispatcher("/index.jsp").forward(req,resp);
     }
 }
 

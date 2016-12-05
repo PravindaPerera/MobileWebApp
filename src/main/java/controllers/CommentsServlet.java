@@ -9,13 +9,22 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name="comment", urlPatterns= "/comments")
+@WebServlet(name="CommentsServlet", urlPatterns= "/comments")
 
 public class CommentsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String phone_id = req.getParameter("phone_id");
-        System.out.println(phone_id);
-        req.getRequestDispatcher("/WEB-INF/views/test.jsp").forward(req,resp);
+        String comment = req.getParameter("cmt");
+        int id = Integer.parseInt(phone_id);
+
+        dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
+        try {
+            databaseCon.postComment(id, comment);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        req.getRequestDispatcher("login").forward(req,resp);
     }
 }

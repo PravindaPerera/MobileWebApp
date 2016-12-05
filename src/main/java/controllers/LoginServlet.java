@@ -24,22 +24,23 @@ public class LoginServlet extends HttpServlet{
         dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
         try {
             user = databaseCon.checkLogin(uname, pword);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         if(user){
             req.setAttribute("profile_name", uname);
-//            try {
-//                phones[] phoneDetails = databaseCon.getPhonesByBrand(brand);
-//                ArrayList<phones> phoneList = new ArrayList<phones>();
-//                for(int i=0; i<phoneDetails.length; i++){
-//                    phoneList.add(phoneDetails[i]);
-//                }
-//                req.setAttribute("phone_details", phoneList);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                phones[] phoneDetails = databaseCon.getData();
+                ArrayList<phones> phoneList = new ArrayList<phones>();
+                for(int i=0; i<phoneDetails.length; i++){
+                    phoneList.add(phoneDetails[i]);
+                }
+                req.setAttribute("phone_details", phoneList);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
 
             req.getRequestDispatcher("/home.jsp").forward(req,resp);
