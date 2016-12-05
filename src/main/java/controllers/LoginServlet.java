@@ -16,9 +16,9 @@ public class LoginServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String uname = req.getParameter("uname");
-        String pword = req.getParameter("pword");
-        String brand = "Samsung";
+        String uname = req.getParameter("un");
+        String pword = req.getParameter("pw");
+        //String brand = "Samsung";
         Boolean user = false;
 
         dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
@@ -29,23 +29,23 @@ public class LoginServlet extends HttpServlet{
         }
 
         if(user){
-            req.setAttribute("p_name", uname);
-            try {
-                phones[] phoneDetails = databaseCon.getPhonesByBrand(brand);
-                ArrayList<phones> phoneList = new ArrayList<phones>();
-                for(int i=0; i<phoneDetails.length; i++){
-                    phoneList.add(phoneDetails[i]);
-                }
-                req.setAttribute("phone_details", phoneList);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            req.setAttribute("profile_name", uname);
+//            try {
+//                phones[] phoneDetails = databaseCon.getPhonesByBrand(brand);
+//                ArrayList<phones> phoneList = new ArrayList<phones>();
+//                for(int i=0; i<phoneDetails.length; i++){
+//                    phoneList.add(phoneDetails[i]);
+//                }
+//                req.setAttribute("phone_details", phoneList);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
 
 
-            req.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(req,resp);
+            req.getRequestDispatcher("/home.jsp").forward(req,resp);
         }
         else{
-            req.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(req,resp);
+            req.getRequestDispatcher("/index.jsp").forward(req,resp);
         }
 
     }

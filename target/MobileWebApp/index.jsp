@@ -16,18 +16,6 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/css/skins/_all-skins.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/iCheck/flat/blue.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/morris/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-    <!-- Date Picker -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/datepicker/datepicker3.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/daterangepicker/daterangepicker.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -101,8 +89,6 @@
                 <li><a href="" data-toggle="modal" data-target="#LogIn"><i class="fa fa-th"></i> <span>Log In</span></a></li>
 
                 <li><a href="" data-toggle="modal" data-target="#SignUp"><i class="fa fa-th"></i> <span>Sign Up</span></a></li>
-
-                <li><a href="" data-toggle="modal" data-target="#SignUp"><i class="fa fa-th"></i> <span>Done done</span></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -143,7 +129,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Log In</h4>
             </div>
-            <form role="form" method="POST" action="functions/login.php">
+            <form role="form" method="POST" action="/login">
                 <div class="modal-body">
                     <div class="box box-primary">
                         <div class="box-header">
@@ -189,7 +175,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Sign Up</h4>
             </div>
-            <form role="form" method="POST" action="###############">
+            <form role="form" method="POST" action="/signup">
                 <div class="modal-body">
                     <div class="box box-primary">
                         <div class="box-header">
@@ -245,27 +231,7 @@
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-<!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="${pageContext.request.contextPath}/plugins/morris/morris.min.js"></script>
-<!-- Sparkline -->
-<script src="${pageContext.request.contextPath}/plugins/sparkline/jquery.sparkline.min.js"></script>
-<!-- jvectormap -->
-<script src="${pageContext.request.contextPath}/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="${pageContext.request.contextPath}/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="${pageContext.request.contextPath}/plugins/knob/jquery.knob.js"></script>
-<!-- daterangepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-<script src="${pageContext.request.contextPath}/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- datepicker -->
-<script src="${pageContext.request.contextPath}/plugins/datepicker/bootstrap-datepicker.js"></script>
-<!-- Bootstrap WYSIHTML5 -->
-<script src="${pageContext.request.contextPath}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<!-- Slimscroll -->
-<script src="${pageContext.request.contextPath}plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="${pageContext.request.contextPath}plugins/fastclick/fastclick.js"></script>
+
 <!-- AdminLTE App -->
 <script src="${pageContext.request.contextPath}/dist/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->

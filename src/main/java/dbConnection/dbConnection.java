@@ -82,6 +82,30 @@ public class dbConnection {
 
         return false;
     }
+
+    public boolean SignUp(String uname, String pword) throws SQLException {
+        String query = "SELECT * FROM login";
+        rs = st.executeQuery(query);
+
+        String username;
+        String password;
+
+        while(rs.next()){
+            username = rs.getString("username");
+
+            if(username.equals(uname)){
+                System.out.println("true");
+                return false;
+            }
+        }
+
+        query = "INSERT INTO login (username, password) VALUES (?,?)";
+        PreparedStatement preparedStmt = con.prepareStatement(query);
+        preparedStmt.setString (1, uname);
+        preparedStmt.setString (2, pword);
+        preparedStmt.execute();
+        return true;
+    }
     
     public phones[] getPhonesByBrand(String brand) throws SQLException {
         int count = 0;
