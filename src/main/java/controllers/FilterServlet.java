@@ -28,6 +28,6 @@ public class FilterServlet extends HttpServlet{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        req.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(req,resp);
+        req.getRequestDispatcher("/home.jsp").forward(req,resp);
     }
 }

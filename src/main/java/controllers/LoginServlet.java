@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import services.phones;
+import services.comments;
 
 @WebServlet(name="login", urlPatterns= "/login")
 public class LoginServlet extends HttpServlet{
@@ -18,7 +19,6 @@ public class LoginServlet extends HttpServlet{
 
         String uname = req.getParameter("un");
         String pword = req.getParameter("pw");
-        //String brand = "Samsung";
         Boolean user = false;
 
         dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
@@ -37,7 +37,15 @@ public class LoginServlet extends HttpServlet{
                 for(int i=0; i<phoneDetails.length; i++){
                     phoneList.add(phoneDetails[i]);
                 }
+                comments[] commentDetails = databaseCon.getComments();
+                ArrayList<comments> commentList = new ArrayList<comments>();
+                for(int i=0; i<commentDetails.length; i++){
+                    commentList.add(commentDetails[i]);
+                }
+
                 req.setAttribute("phone_details", phoneList);
+                req.setAttribute("comment_details", commentList);
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -46,7 +54,7 @@ public class LoginServlet extends HttpServlet{
             req.getRequestDispatcher("/home.jsp").forward(req,resp);
         }
         else{
-            req.getRequestDispatcher("/index.jsp").forward(req,resp);
+            resp.sendRedirect("http://localhost:8080");
         }
 
     }

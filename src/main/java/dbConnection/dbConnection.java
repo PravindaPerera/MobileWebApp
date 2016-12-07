@@ -1,5 +1,6 @@
 package dbConnection;
 import services.phones;
+import services.comments;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -114,6 +115,39 @@ public class dbConnection {
         preparedStmt.setInt(1, id);
         preparedStmt.setString (2, comment);
         preparedStmt.execute();
+    }
+
+    public comments[] getComments() throws SQLException {
+        int count = 0;
+        int index = 0;
+        String query = "SELECT COUNT(*) AS total FROM comments";
+        rs = st.executeQuery(query);
+
+        if(rs.next()){
+            count = rs.getInt("total");
+        }
+
+        comments[] comment = new comments[count];
+
+        try{
+            query = "SELECT * FROM comments";
+            rs = st.executeQuery(query);
+
+            while(rs.next()){
+                comment[index] = new comments();
+                comment[index].setPhone_id(rs.getInt("phone_id"));
+                comment[index].setCmt_id(rs.getInt("comment_id"));
+                comment[index].setCmnt(rs.getString("comment"));
+                index ++;
+            }
+
+
+        }
+        catch(Exception ex){
+
+        }
+
+        return comment;
     }
     
     public phones[] getPhonesByBrand(String brand) throws SQLException {

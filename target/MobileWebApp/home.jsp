@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="services.phones" %>
+<%@ page import="services.comments" %>
 <%@ page import="java.util.ArrayList" %>
 
 <html>
@@ -25,6 +26,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/css/skins/_all-skins.min.css">
+
+
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -55,12 +58,12 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="dist/img/hesh.png" class="user-image" alt="User Image">
-                            <span class="hidden-xs">FYP</span>
+                            <span class="hidden-xs">${profile_name}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="dist/img/hesh.png" class="img-circle" alt="User Image">
+                                <img src="${pageContext.request.contextPath}/dist/img/profile_pic.jpg" class="img-circle" alt="User Image">
 
                                 <p>
                                     Final Year Research Project
@@ -85,10 +88,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="dist/img/hesh.png" class="img-circle" alt="User Image">
+                    <img src="${pageContext.request.contextPath}/dist/img/profile_pic.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>FYP</p>
+                    <p>${profile_name}</p>
                 </div>
             </div>
             <!-- /.search form -->
@@ -114,7 +117,54 @@
         </section>
 
         <section class="content">
-        <% ArrayList<phones> pd = (ArrayList<phones>)request.getAttribute("phone_details");
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#FilterFeatures" aria-expanded="false" aria-controls="FilterFeatures">Filter by Basic Features</button>
+
+                <div class="collapse" id="FilterFeatures" style="padding-top: 10px">
+
+                    <form role="form" method=post action="">
+                        <div>
+                            <label>Search Type:</label>
+                            <select name="search_type" onchange="selectSearchType()" style="width: 100%;">
+                                <option>Select Search Type</option>
+                                <option>Brand</option>
+                                <option>Code</option>
+                                <option>Storage</option>
+                                <option>Display</option>
+                                <option>Battery</option>
+                                <option>Front Camera</option>
+                                <option>Rear Camera</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Search Results:</label>
+                            <select id="results"  name="results" style="width: 100%;" required autocomplete="off"/>
+                            </select>
+                        </div>
+                        <input type="button" id="searchOnResults" value="Search" onclick="searchOnResults()">
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#FilterPrice" aria-expanded="false" aria-controls="FilterPrice">Filter by Price</button>
+
+                <div class="collapse" id="FilterPrice" style="padding-top: 10px">
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+
+        <%
+            ArrayList<phones> pd = (ArrayList<phones>)request.getAttribute("phone_details");
+            ArrayList<comments> cd = (ArrayList<comments>)request.getAttribute("comment_details");
         %>
 
         <table class="table table-bordered">
@@ -128,6 +178,7 @@
         <th>Front Cam</th>
         <th>Rear Cam</th>
         <th>Price</th>
+        <th>Comments</th>
         </tr>
 
 
@@ -145,6 +196,15 @@
         <td><%= pd.get(i).getFront_cam()%></td>
         <td><%= pd.get(i).getRear_cam()%></td>
         <td><%= pd.get(i).getPrice()%></td>
+        <td>
+            <%
+                for(int y=0; y<cd.size(); y++){
+                    if(cd.get(y).getPhone_id() == pd.get(i).getPhone_id()){
+                        %><i class="fa fa-comments" aria-hidden="true"></i><%= cd.get(y).getCmnt()%><br><%
+                    }
+                }
+            %>
+        </td>
         </tr>
         <%
 
@@ -152,6 +212,9 @@
         %>
 
         </table>
+
+        </div>
+
         </section>
 
 

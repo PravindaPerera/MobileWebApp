@@ -24,7 +24,7 @@ public class SignUpServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        req.getRequestDispatcher("/index.jsp").forward(req,resp);
+        resp.sendRedirect("http://localhost:8080");
 
     }
 
