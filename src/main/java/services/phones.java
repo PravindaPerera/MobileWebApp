@@ -1,6 +1,8 @@
 package services;
 
 
+import java.util.ArrayList;
+
 public class phones {
     private int phone_id;
     private String brand;
@@ -11,6 +13,7 @@ public class phones {
     private String front_cam;
     private String rear_cam;
     private Double price;
+    public ArrayList<String> comments = new ArrayList<String>();
 
     public int getPhone_id() {
         return phone_id;
@@ -83,4 +86,5 @@ public class phones {
     public void setPrice(Double price) {
         this.price = price;
     }
+
 }

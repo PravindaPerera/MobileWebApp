@@ -54,36 +54,95 @@
 
     </script>
 
-    <script>
-
-        $(document).on("click", "#searchOnResults", function() {
-            alert("ccxc")// When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
-            $.post("${pageContext.request.contextPath}/finalSearch", function(responseJson) {    // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...
-                var $ul = $("<tr>").appendTo($("#finalRes"));
-                $.each(responseJson, function(index, item) {
-
-                    $("<td>").text(item).appendTo($ul);      // Create HTML <li> element, set its text content with currently iterated item and append it to the <ul>.
-                });
-            });
-        });
-
-    </script>
-
     <%--<script>--%>
-        <%--function searchOnResults() {--%>
-            <%--alert("tata");--%>
-            <%--$.post("${pageContext.request.contextPath}/finalSearch", function(responseJson) {--%>
-                <%--alert(responseJson);--%>
+
+        <%--$(document).on("click", "#searchOnResults", function() {--%>
+            <%--alert("ccxc")// When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...--%>
+            <%--$.post("${pageContext.request.contextPath}/finalSearch", function(responseJson) {    // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...--%>
                 <%--var $ul = $("<tr>").appendTo($("#finalRes"));--%>
                 <%--$.each(responseJson, function(index, item) {--%>
 
-                    <%--$("<td>").text(item).appendTo($ul);--%>
-
+                    <%--$("<td>").text(item).appendTo($ul);      // Create HTML <li> element, set its text content with currently iterated item and append it to the <ul>.--%>
                 <%--});--%>
             <%--});--%>
-        <%--}--%>
+        <%--});--%>
 
     <%--</script>--%>
+
+    <script>
+        function searchOnResults() {
+            $.ajax({
+                        url:'${pageContext.request.contextPath}/finalSearch',
+                        data:{search_type: document.getElementById("search_type").value,
+                            results: document.getElementById("results").value},
+                        type:'post',
+                        cache:false,
+                        success:function(responseJson){
+                            var select = $("#finalRes");
+                            select.empty();
+                            alert(responseJson);
+                            var myJSONText = JSON.stringify(responseJson);
+                            var obj = JSON.parse(myJSONText);
+                            alert(obj);
+                            var html = '<table class="table table-bordered">\n\
+                            <tr>\n\
+                            <th>Phone ID</th>\n\
+                            <th>Brand</th>\n\
+                            <th>Code</th>\n\
+                            <th>Storage</th>\n\
+                            <th>Display</th>\n\
+                            <th>Battery</th>\n\
+                            <th>Front Cam</th>\n\
+                            <th>Rear Cam</th>\n\
+                            <th>Price</th>\n\
+                            <th>Comments</th>\n\
+                            </tr>';
+
+
+                            for (var i = 0; i < obj.length; i++) {
+                                html += '<tr>';
+                                html += '<td>' + obj[i].phone_id
+                                        + '</td>';
+                                html += '<td>' + obj[i].brand
+                                        + '</td>';
+                                html += '<td>' + obj[i].code
+                                        + '</td>';
+                                html += '<td>' + obj[i].storage
+                                        + '</td>';
+                                html += '<td>' + obj[i].display
+                                        + '</td>';
+                                html += '<td>' + obj[i].battery
+                                        + '</td>';
+                                html += '<td>' + obj[i].front_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].rear_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].price
+                                        + '</td>';
+                                html += '<td>';
+                                for(var j=0; j<obj[i].comments.length; j++){
+                                    html += '<i class="fa fa-comments" aria-hidden="true"></i>' + obj[i].comments[j]
+                                            + '<br>';
+                                }
+                                html += '</td>';
+                                html += '</tr>';
+                            }
+
+                            html += '<table>';
+
+                            $('#finalRes').html(html);
+
+
+                        },
+                        error:function(){
+                            alert('error');
+                        }
+                    }
+            );
+
+        }
+
+    </script>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -179,7 +238,7 @@
 
                 <div class="collapse" id="FilterFeatures" style="padding-top: 10px">
 
-                    <form role="form" id="form1" name="form1" method="POST" action="">
+                    <form id="form1" name="form1">
                         <div>
                             <label>Search Type:</label>
                             <select name="search_type" id="search_type" onchange="selectSearchType()" style="width: 100%;">
@@ -193,15 +252,14 @@
                                 <option>Rear Camera</option>
                             </select>
                         </div>
-                        <div>
+                        <div style="padding-bottom: 10px">
                             <label>Search Results:</label>
                             <select id="results"  name="results" style="width: 100%;">
                                 <option>Search Results</option>
                             </select>
 
                         </div>
-                        <input type="button" id="searchOnResults" value="Search">
-                        <%--<input hidden type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">--%>
+                        <input class="btn-success pull-left" type="button" value="Search" onclick="searchOnResults();">
                     </form>
 
                 </div>
@@ -219,6 +277,8 @@
 
 
         <div class="row">
+
+        <div id="finalRes">
 
 
         <%
@@ -244,7 +304,7 @@
         <%
         for(int i=0; i<pd.size(); i++){
         %>
-        <div id="finalRes">
+
 
             <tr>
                 <td><%= pd.get(i).getPhone_id()%></td>
@@ -267,7 +327,7 @@
                 </td>
             </tr>
 
-        </div>
+
 
         <%
 
@@ -275,6 +335,8 @@
         %>
 
         </table>
+
+        </div>
 
         </div>
 

@@ -9,6 +9,7 @@ public class dbConnection {
     private Connection con;
     private Statement st;
     private ResultSet rs;
+    private ResultSet rs2;
 
     public dbConnection(){
         try{
@@ -228,6 +229,7 @@ public class dbConnection {
     public ArrayList<phones> getFinalSearchRes(String search_type, String value) throws SQLException {
         String query1 = "";
         String countQu = "";
+        String commentQu = "";
         int count = 0;
         int index = 0;
         ArrayList<phones> searchDetails = new ArrayList<phones>();
@@ -298,7 +300,18 @@ public class dbConnection {
             phoneDetails[index].setFront_cam(rs.getString("front_cam"));
             phoneDetails[index].setRear_cam(rs.getString("rear_cam"));
             phoneDetails[index].setPrice(rs.getDouble("price"));
+
+            commentQu = "SELECT comment FROM comments WHERE phone_id = ?";
+            preparedStmtCount = con.prepareStatement(commentQu);
+            preparedStmtCount.setInt(1, phoneDetails[index].getPhone_id());
+            rs2 = preparedStmtCount.executeQuery();
+
+            while(rs2.next()){
+                phoneDetails[index].comments.add(rs2.getString("comment"));
+            }
+
             index ++;
+
         }
 
         for (int i=0; i<phoneDetails.length; i++){

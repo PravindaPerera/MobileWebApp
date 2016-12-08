@@ -24,15 +24,15 @@ public class FilterSearchServlet extends HttpServlet {
         System.out.println("Filteration Search Servlet------------------ :)");
         dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
         String search_type = req.getParameter("search_type");
-        String val = req.getParameter("results");
+        String results = req.getParameter("results");
+
         System.out.println(search_type);
-        //take this off------
-        search_type = "Storage";
-        //take this off------
+        System.out.println(results);
+
         ArrayList<phones> seacrh_res;
 
         try {
-            seacrh_res = databaseCon.getFinalSearchRes(search_type, val);
+            seacrh_res = databaseCon.getFinalSearchRes(search_type, results);
             String json = new Gson().toJson(seacrh_res);
             System.out.println(json);
 
@@ -51,10 +51,8 @@ public class FilterSearchServlet extends HttpServlet {
         dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
         String search_type = req.getParameter("search_type");
         String val = req.getParameter("results");
-        System.out.println(search_type);
-        //take this off------
-        search_type = "Storage";
-        //take this off------
+        System.out.println(search_type + " %%%%%%%%%%%%% " + val);
+
         ArrayList<phones> seacrh_res;
 
         try {
