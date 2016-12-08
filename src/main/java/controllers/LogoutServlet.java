@@ -14,6 +14,6 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/main.jsp").forward(req,resp);
+        resp.sendRedirect("http://localhost:8080");
     }
 }

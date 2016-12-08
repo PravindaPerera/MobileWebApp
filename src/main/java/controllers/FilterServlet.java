@@ -17,17 +17,24 @@ public class FilterServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Filteration ------------------ :)");
         dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
         String search_type = req.getParameter("search_type");
+
         ArrayList<String> seacrh_res;
 
         try {
             seacrh_res = databaseCon.getSearchDetails(search_type);
             String json = new Gson().toJson(seacrh_res);
-            req.setAttribute("response", json);
+            System.out.println(json);
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(json);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        req.getRequestDispatcher("/home.jsp").forward(req,resp);
+        //req.getRequestDispatcher("/home.jsp").forward(req,resp);
     }
 }

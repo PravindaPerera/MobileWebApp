@@ -27,7 +27,63 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/css/skins/_all-skins.min.css">
 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.css">
 
+
+    <script>
+        function selectSearchType() {
+            $.ajax({
+                        url:'${pageContext.request.contextPath}/selectSearchType',
+                        data:{search_type: document.getElementById("search_type").value},
+                        type:'post',
+                        cache:false,
+                        success:function(responseJson){
+                            var select = $("#results");
+                            select.empty();
+                            $.each(responseJson, function(index, item) {
+                                $("<option>").text(item).appendTo(select);
+
+                            });
+                        },
+                        error:function(){
+                            alert('error');
+                        }
+                    }
+            );
+        }
+
+    </script>
+
+    <script>
+
+        $(document).on("click", "#searchOnResults", function() {
+            alert("ccxc")// When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+            $.post("${pageContext.request.contextPath}/finalSearch", function(responseJson) {    // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...
+                var $ul = $("<tr>").appendTo($("#finalRes"));
+                $.each(responseJson, function(index, item) {
+
+                    $("<td>").text(item).appendTo($ul);      // Create HTML <li> element, set its text content with currently iterated item and append it to the <ul>.
+                });
+            });
+        });
+
+    </script>
+
+    <%--<script>--%>
+        <%--function searchOnResults() {--%>
+            <%--alert("tata");--%>
+            <%--$.post("${pageContext.request.contextPath}/finalSearch", function(responseJson) {--%>
+                <%--alert(responseJson);--%>
+                <%--var $ul = $("<tr>").appendTo($("#finalRes"));--%>
+                <%--$.each(responseJson, function(index, item) {--%>
+
+                    <%--$("<td>").text(item).appendTo($ul);--%>
+
+                <%--});--%>
+            <%--});--%>
+        <%--}--%>
+
+    <%--</script>--%>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -57,7 +113,7 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="dist/img/hesh.png" class="user-image" alt="User Image">
+                            <img src="${pageContext.request.contextPath}/dist/img/profile_pic.jpg" class="user-image" alt="User Image">
                             <span class="hidden-xs">${profile_name}</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -123,10 +179,10 @@
 
                 <div class="collapse" id="FilterFeatures" style="padding-top: 10px">
 
-                    <form role="form" method=post action="">
+                    <form role="form" id="form1" name="form1" method="POST" action="">
                         <div>
                             <label>Search Type:</label>
-                            <select name="search_type" onchange="selectSearchType()" style="width: 100%;">
+                            <select name="search_type" id="search_type" onchange="selectSearchType()" style="width: 100%;">
                                 <option>Select Search Type</option>
                                 <option>Brand</option>
                                 <option>Code</option>
@@ -139,10 +195,13 @@
                         </div>
                         <div>
                             <label>Search Results:</label>
-                            <select id="results"  name="results" style="width: 100%;" required autocomplete="off"/>
+                            <select id="results"  name="results" style="width: 100%;">
+                                <option>Search Results</option>
                             </select>
+
                         </div>
-                        <input type="button" id="searchOnResults" value="Search" onclick="searchOnResults()">
+                        <input type="button" id="searchOnResults" value="Search">
+                        <%--<input hidden type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">--%>
                     </form>
 
                 </div>
@@ -185,27 +244,31 @@
         <%
         for(int i=0; i<pd.size(); i++){
         %>
+        <div id="finalRes">
 
-        <tr>
-        <td><%= pd.get(i).getPhone_id()%></td>
-        <td><%= pd.get(i).getBrand()%></td>
-        <td><%= pd.get(i).getCode()%></td>
-        <td><%= pd.get(i).getStorage()%></td>
-        <td><%= pd.get(i).getDisplay()%></td>
-        <td><%= pd.get(i).getBattery()%></td>
-        <td><%= pd.get(i).getFront_cam()%></td>
-        <td><%= pd.get(i).getRear_cam()%></td>
-        <td><%= pd.get(i).getPrice()%></td>
-        <td>
-            <%
-                for(int y=0; y<cd.size(); y++){
-                    if(cd.get(y).getPhone_id() == pd.get(i).getPhone_id()){
-                        %><i class="fa fa-comments" aria-hidden="true"></i><%= cd.get(y).getCmnt()%><br><%
+            <tr>
+                <td><%= pd.get(i).getPhone_id()%></td>
+                <td><%= pd.get(i).getBrand()%></td>
+                <td><%= pd.get(i).getCode()%></td>
+                <td><%= pd.get(i).getStorage()%></td>
+                <td><%= pd.get(i).getDisplay()%></td>
+                <td><%= pd.get(i).getBattery()%></td>
+                <td><%= pd.get(i).getFront_cam()%></td>
+                <td><%= pd.get(i).getRear_cam()%></td>
+                <td><%= pd.get(i).getPrice()%></td>
+                <td>
+                    <%
+                        for(int y=0; y<cd.size(); y++){
+                            if(cd.get(y).getPhone_id() == pd.get(i).getPhone_id()){
+                    %><i class="fa fa-comments" aria-hidden="true"></i><%= cd.get(y).getCmnt()%><br><%
+                        }
                     }
-                }
-            %>
-        </td>
-        </tr>
+                %>
+                </td>
+            </tr>
+
+        </div>
+
         <%
 
         }
@@ -308,6 +371,8 @@
 <script src="${pageContext.request.contextPath}/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="${pageContext.request.contextPath}/dist/js/demo.js"></script>
+
+<script src="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.min.js"></script>
 
 </body>
 </html>

@@ -21,6 +21,8 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/css/skins/_all-skins.min.css">
 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.css">
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -294,6 +296,8 @@
 <script src="${pageContext.request.contextPath}/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="${pageContext.request.contextPath}/dist/js/demo.js"></script>
+
+<script src="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.min.js"></script>
 
 
 

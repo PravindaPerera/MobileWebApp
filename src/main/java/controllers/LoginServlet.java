@@ -54,6 +54,7 @@ public class LoginServlet extends HttpServlet{
             req.getRequestDispatcher("/home.jsp").forward(req,resp);
         }
         else{
+            resp.setStatus(100);
             resp.sendRedirect("http://localhost:8080");
         }
 

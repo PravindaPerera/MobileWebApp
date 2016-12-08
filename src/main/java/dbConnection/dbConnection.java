@@ -224,4 +224,87 @@ public class dbConnection {
 
         return searchDetails;
     }
+
+    public ArrayList<phones> getFinalSearchRes(String search_type, String value) throws SQLException {
+        String query1 = "";
+        String countQu = "";
+        int count = 0;
+        int index = 0;
+        ArrayList<phones> searchDetails = new ArrayList<phones>();
+
+        if (search_type.equals("Brand")) {
+            countQu = "SELECT COUNT(*) AS count FROM phones WHERE brand=?";
+            query1 =  "SELECT * FROM phones WHERE brand=?";
+
+        }
+        else if (search_type.equals("Code")) {
+            countQu = "SELECT COUNT(*) AS count FROM phones WHERE code_id=?";
+            query1 =  "SELECT * FROM phones WHERE code_id=?";
+
+        }
+        else if (search_type.equals("Storage")) {
+            countQu = "SELECT COUNT(*) AS count FROM phones WHERE storage=?";
+            query1 =  "SELECT * FROM phones WHERE storage=?";
+
+        }
+        else if (search_type.equals("Display")) {
+            countQu = "SELECT COUNT(*) AS count FROM phones WHERE display=?";
+            query1 =  "SELECT * FROM phones WHERE display=?";
+
+
+        }
+        else if (search_type.equals("Battery")) {
+            countQu = "SELECT COUNT(*) AS count FROM phones WHERE battery=?";
+            query1 =  "SELECT * FROM phones WHERE battery=?";
+
+        }
+        else if (search_type.equals("Front Camera")) {
+            countQu = "SELECT COUNT(*) AS count FROM phones WHERE front_cam=?";
+            query1 =  "SELECT * FROM phones WHERE front_cam=?";
+
+
+        }
+        else if (search_type.equals("Rear Camera")) {
+            countQu = "SELECT COUNT(*) AS count FROM phones WHERE rear_cam=?";
+            query1 =  "SELECT * FROM phones WHERE rear_cam=?";
+
+        }
+        else {
+
+        }
+
+        PreparedStatement preparedStmtCount = con.prepareStatement(countQu);
+        preparedStmtCount.setString (1, value);
+        rs =preparedStmtCount.executeQuery();
+
+        if(rs.next()){
+            count = rs.getInt("count");
+        }
+
+        phones[] phoneDetails = new phones[count];
+
+        PreparedStatement preparedStmt = con.prepareStatement(query1);
+        preparedStmt.setString (1, value);
+        rs =preparedStmt.executeQuery();
+
+        while(rs.next()){
+            phoneDetails[index] = new phones();
+            phoneDetails[index].setPhone_id(rs.getInt("phone_id"));
+            phoneDetails[index].setBrand(rs.getString("brand"));
+            phoneDetails[index].setCode(rs.getString("code_id"));
+            phoneDetails[index].setStorage(rs.getString("storage"));
+            phoneDetails[index].setDisplay(rs.getString("display"));
+            phoneDetails[index].setBattery(rs.getString("battery"));
+            phoneDetails[index].setFront_cam(rs.getString("front_cam"));
+            phoneDetails[index].setRear_cam(rs.getString("rear_cam"));
+            phoneDetails[index].setPrice(rs.getDouble("price"));
+            index ++;
+        }
+
+        for (int i=0; i<phoneDetails.length; i++){
+            searchDetails.add(phoneDetails[i]);
+        }
+
+        return searchDetails;
+    }
 }

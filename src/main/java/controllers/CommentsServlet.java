@@ -25,6 +25,6 @@ public class CommentsServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        req.getRequestDispatcher("login").forward(req,resp);
+        resp.sendRedirect("http://localhost:8080/login");
     }
 }
