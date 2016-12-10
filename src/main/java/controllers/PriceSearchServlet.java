@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * Created by Pravinda Perera on 12/9/2016.
- */
 @WebServlet(name = "PriceSearchServlet", urlPatterns= "/priceSearch")
 public class PriceSearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

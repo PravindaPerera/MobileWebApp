@@ -109,13 +109,66 @@ public class dbConnection {
         return pd;
     }
 
-    public void postComment(int id, String comment) throws SQLException {
+    public ArrayList<phones> postComment(int id, String comment) throws SQLException {
+
+        int count = 0;
+        int index = 0;
+
+        String query1 = "";
+        String query2 = "";
+        String commentQu = "";
+
+        ArrayList<phones> searchDetails = new ArrayList<phones>();
 
         String query = "INSERT INTO comments (phone_id, comment) VALUES (?,?)";
         PreparedStatement preparedStmt = con.prepareStatement(query);
         preparedStmt.setInt(1, id);
         preparedStmt.setString (2, comment);
         preparedStmt.execute();
+
+        query1 = "SELECT COUNT(*) AS count FROM phones";
+        query2 = "SELECT * FROM phones";
+
+        rs = st.executeQuery(query1);
+
+        if(rs.next()){
+            count = rs.getInt("count");
+        }
+
+        rs = st.executeQuery(query2);
+
+        phones[] phoneDetails = new phones[count];
+
+        while(rs.next()){
+            phoneDetails[index] = new phones();
+            phoneDetails[index].setPhone_id(rs.getInt("phone_id"));
+            phoneDetails[index].setBrand(rs.getString("brand"));
+            phoneDetails[index].setCode(rs.getString("code_id"));
+            phoneDetails[index].setStorage(rs.getString("storage"));
+            phoneDetails[index].setDisplay(rs.getString("display"));
+            phoneDetails[index].setBattery(rs.getString("battery"));
+            phoneDetails[index].setFront_cam(rs.getString("front_cam"));
+            phoneDetails[index].setRear_cam(rs.getString("rear_cam"));
+            phoneDetails[index].setPrice(rs.getDouble("price"));
+
+            commentQu = "SELECT comment FROM comments WHERE phone_id = ?";
+            preparedStmt = con.prepareStatement(commentQu);
+            preparedStmt.setInt(1, phoneDetails[index].getPhone_id());
+            rs2 = preparedStmt.executeQuery();
+
+            while(rs2.next()){
+                phoneDetails[index].comments.add(rs2.getString("comment"));
+            }
+
+            index ++;
+
+        }
+
+        for (int i=0; i<phoneDetails.length; i++){
+            searchDetails.add(phoneDetails[i]);
+        }
+
+        return searchDetails;
     }
 
     public comments[] getComments() throws SQLException {

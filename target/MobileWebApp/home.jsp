@@ -27,7 +27,6 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/css/skins/_all-skins.min.css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.css">
 
 
     <script>
@@ -65,10 +64,8 @@
                         success:function(responseJson){
                             var select = $("#finalRes");
                             select.empty();
-                            alert(responseJson);
                             var myJSONText = JSON.stringify(responseJson);
                             var obj = JSON.parse(myJSONText);
-                            alert(obj);
                             var html = '<table class="table table-bordered">\n\
                             <tr>\n\
                             <th>Phone ID</th>\n\
@@ -140,10 +137,81 @@
                         success:function(responseJson){
                             var select = $("#finalRes");
                             select.empty();
-                            alert(responseJson);
                             var myJSONText = JSON.stringify(responseJson);
                             var obj = JSON.parse(myJSONText);
-                            alert(obj);
+                            var html = '<table class="table table-bordered">\n\
+                            <tr>\n\
+                            <th>Phone ID</th>\n\
+                            <th>Brand</th>\n\
+                            <th>Code</th>\n\
+                            <th>Storage</th>\n\
+                            <th>Display</th>\n\
+                            <th>Battery</th>\n\
+                            <th>Front Cam</th>\n\
+                            <th>Rear Cam</th>\n\
+                            <th>Price</th>\n\
+                            <th>Comments</th>\n\
+                            </tr>';
+
+
+                            for (var i = 0; i < obj.length; i++) {
+                                html += '<tr>';
+                                html += '<td>' + obj[i].phone_id
+                                        + '</td>';
+                                html += '<td>' + obj[i].brand
+                                        + '</td>';
+                                html += '<td>' + obj[i].code
+                                        + '</td>';
+                                html += '<td>' + obj[i].storage
+                                        + '</td>';
+                                html += '<td>' + obj[i].display
+                                        + '</td>';
+                                html += '<td>' + obj[i].battery
+                                        + '</td>';
+                                html += '<td>' + obj[i].front_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].rear_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].price
+                                        + '</td>';
+                                html += '<td>';
+                                for(var j=0; j<obj[i].comments.length; j++){
+                                    html += '<i class="fa fa-comments" aria-hidden="true"></i>' + obj[i].comments[j]
+                                            + '<br>';
+                                }
+                                html += '</td>';
+                                html += '</tr>';
+                            }
+
+                            html += '<table>';
+
+                            $('#finalRes').html(html);
+
+
+                        },
+                        error:function(){
+                            alert('error');
+                        }
+                    }
+            );
+
+        }
+
+    </script>
+
+    <script>
+        function postComment() {
+            $.ajax({
+                        url:'${pageContext.request.contextPath}/comments',
+                        data:{phone_id: document.getElementById("phone_id").value,
+                            cmt: document.getElementById("cmt").value},
+                        type:'post',
+                        cache:false,
+                        success:function(responseJson){
+                            var select = $("#finalRes");
+                            select.empty();
+                            var myJSONText = JSON.stringify(responseJson);
+                            var obj = JSON.parse(myJSONText);
                             var html = '<table class="table table-bordered">\n\
                             <tr>\n\
                             <th>Phone ID</th>\n\
@@ -343,7 +411,7 @@
                                 <option>25000</option>
                             </select>
                         </div>
-                        <div>
+                        <div style="padding-bottom: 10px">
                             <label>Minimum Price:</label>
                             <select name="min_price" id="min_price" style="width: 100%;">
                                 <option>Minimum</option>
@@ -455,7 +523,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Post Comment</h4>
             </div>
-            <form role="form" method="POST" action="/comments">
+            <form name="formCom" id="formCom">
                 <div class="modal-body">
                     <div class="box box-primary">
                         <div class="box-header">
@@ -468,7 +536,7 @@
 
                             <div class="form-group">
                                 <label>Phone ID:</label>
-                                <select style="width: 100px" name="phone_id">
+                                <select style="width: 100px" name="phone_id" id="phone_id">
                                     <%for (int i=0; i<pd.size(); i++){
                                         %>
                                     <option value="<%= pd.get(i).getPhone_id()%>"><%= pd.get(i).getPhone_id()%></option>
@@ -481,7 +549,7 @@
 
                             <div class="form-group">
                                 <label>Comment:</label>
-                                <input type="text" class="form-control" style="width: 500px; height: 100px" name ="cmt" placeholder="Post a comment">
+                                <input type="text" class="form-control" style="width: 500px; height: 100px" name ="cmt" id="cmt" placeholder="Post a comment">
                             </div>
 
                         </div><!-- /.box-body -->
@@ -490,7 +558,7 @@
 
                     <div class="modal-footer">
                         <div>
-                            <input type="submit" name="submit" value="Log In" class="btn btn-info pull-right">
+                            <input class="btn-info pull-left" type="button" value="Post Comment" onclick="postComment();">
                         </div>
                     </div>
                 </div>
@@ -499,10 +567,6 @@
     </div>
 
 </div>
-
-
-<p>Your are logged in succesfully</p>
-<p>${profile_name}</p>
 
 <!-- jQuery 2.2.3 -->
 <script src="${pageContext.request.contextPath}/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -522,7 +586,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="${pageContext.request.contextPath}/dist/js/demo.js"></script>
 
-<script src="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.min.js"></script>
 
 </body>
 </html>

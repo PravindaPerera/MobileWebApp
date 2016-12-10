@@ -1,8 +1,5 @@
 package services;
 
-/**
- * Created by Pravinda Perera on 12/5/2016.
- */
 public class comments {
     private int cmt_id;
     private int phone_id;

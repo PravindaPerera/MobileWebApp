@@ -13,9 +13,7 @@ import java.util.ArrayList;
 
 import services.phones;
 
-/**
- * Created by Pravinda Perera on 12/8/2016.
- */
+
 @WebServlet(name = "FilterSearchServlet", urlPatterns= "/finalSearch")
 
 public class FilterSearchServlet extends HttpServlet {

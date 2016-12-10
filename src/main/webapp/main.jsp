@@ -21,7 +21,176 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/css/skins/_all-skins.min.css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.css">
+
+    <script>
+        function selectSearchType() {
+            $.ajax({
+                        url:'${pageContext.request.contextPath}/selectSearchType',
+                        data:{search_type: document.getElementById("search_type").value},
+                        type:'post',
+                        cache:false,
+                        success:function(responseJson){
+                            var select = $("#results");
+                            select.empty();
+                            $.each(responseJson, function(index, item) {
+                                $("<option>").text(item).appendTo(select);
+
+                            });
+                        },
+                        error:function(){
+                            alert('error');
+                        }
+                    }
+            );
+        }
+
+    </script>
+
+    <script>
+        function searchOnResults() {
+            $.ajax({
+                        url:'${pageContext.request.contextPath}/finalSearch',
+                        data:{search_type: document.getElementById("search_type").value,
+                            results: document.getElementById("results").value},
+                        type:'post',
+                        cache:false,
+                        success:function(responseJson){
+                            var select = $("#finalRes");
+                            select.empty();
+                            var myJSONText = JSON.stringify(responseJson);
+                            var obj = JSON.parse(myJSONText);
+                            var html = '<table class="table table-bordered">\n\
+                            <tr>\n\
+                            <th>Phone ID</th>\n\
+                            <th>Brand</th>\n\
+                            <th>Code</th>\n\
+                            <th>Storage</th>\n\
+                            <th>Display</th>\n\
+                            <th>Battery</th>\n\
+                            <th>Front Cam</th>\n\
+                            <th>Rear Cam</th>\n\
+                            <th>Price</th>\n\
+                            <th>Comments</th>\n\
+                            </tr>';
+
+
+                            for (var i = 0; i < obj.length; i++) {
+                                html += '<tr>';
+                                html += '<td>' + obj[i].phone_id
+                                        + '</td>';
+                                html += '<td>' + obj[i].brand
+                                        + '</td>';
+                                html += '<td>' + obj[i].code
+                                        + '</td>';
+                                html += '<td>' + obj[i].storage
+                                        + '</td>';
+                                html += '<td>' + obj[i].display
+                                        + '</td>';
+                                html += '<td>' + obj[i].battery
+                                        + '</td>';
+                                html += '<td>' + obj[i].front_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].rear_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].price
+                                        + '</td>';
+                                html += '<td>';
+                                for(var j=0; j<obj[i].comments.length; j++){
+                                    html += '<i class="fa fa-comments" aria-hidden="true"></i>' + obj[i].comments[j]
+                                            + '<br>';
+                                }
+                                html += '</td>';
+                                html += '</tr>';
+                            }
+
+                            html += '<table>';
+
+                            $('#finalRes').html(html);
+
+
+                        },
+                        error:function(){
+                            alert('error');
+                        }
+                    }
+            );
+
+        }
+
+    </script>
+
+    <script>
+        function searchOnPrice() {
+            $.ajax({
+                        url:'${pageContext.request.contextPath}/priceSearch',
+                        data:{max_price: document.getElementById("max_price").value,
+                            min_price: document.getElementById("min_price").value},
+                        type:'post',
+                        cache:false,
+                        success:function(responseJson){
+                            var select = $("#finalRes");
+                            select.empty();
+                            var myJSONText = JSON.stringify(responseJson);
+                            var obj = JSON.parse(myJSONText);
+                            var html = '<table class="table table-bordered">\n\
+                            <tr>\n\
+                            <th>Phone ID</th>\n\
+                            <th>Brand</th>\n\
+                            <th>Code</th>\n\
+                            <th>Storage</th>\n\
+                            <th>Display</th>\n\
+                            <th>Battery</th>\n\
+                            <th>Front Cam</th>\n\
+                            <th>Rear Cam</th>\n\
+                            <th>Price</th>\n\
+                            <th>Comments</th>\n\
+                            </tr>';
+
+
+                            for (var i = 0; i < obj.length; i++) {
+                                html += '<tr>';
+                                html += '<td>' + obj[i].phone_id
+                                        + '</td>';
+                                html += '<td>' + obj[i].brand
+                                        + '</td>';
+                                html += '<td>' + obj[i].code
+                                        + '</td>';
+                                html += '<td>' + obj[i].storage
+                                        + '</td>';
+                                html += '<td>' + obj[i].display
+                                        + '</td>';
+                                html += '<td>' + obj[i].battery
+                                        + '</td>';
+                                html += '<td>' + obj[i].front_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].rear_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].price
+                                        + '</td>';
+                                html += '<td>';
+                                for(var j=0; j<obj[i].comments.length; j++){
+                                    html += '<i class="fa fa-comments" aria-hidden="true"></i>' + obj[i].comments[j]
+                                            + '<br>';
+                                }
+                                html += '</td>';
+                                html += '</tr>';
+                            }
+
+                            html += '<table>';
+
+                            $('#finalRes').html(html);
+
+
+                        },
+                        error:function(){
+                            alert('error');
+                        }
+                    }
+            );
+
+        }
+
+    </script>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -110,56 +279,136 @@
         </section>
 
         <section class="content">
-        <%
-            ArrayList<phones> pd = (ArrayList<phones>)request.getAttribute("phone_details");
-            ArrayList<comments> cd = (ArrayList<comments>)request.getAttribute("comment_details");
-        %>
 
-        <table class="table table-bordered">
-        <tr>
-        <th>Phone ID</th>
-        <th>Brand</th>
-        <th>Code</th>
-        <th>Storage</th>
-        <th>Display</th>
-        <th>Battery</th>
-        <th>Front Cam</th>
-        <th>Rear Cam</th>
-        <th>Price</th>
-        <th>Comments</th>
-        </tr>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#FilterFeatures" aria-expanded="false" aria-controls="FilterFeatures">Filter by Basic Features</button>
+
+                    <div class="collapse" id="FilterFeatures" style="padding-top: 10px">
+
+                        <form id="form1" name="form1">
+                            <div>
+                                <label>Search Type:</label>
+                                <select name="search_type" id="search_type" onchange="selectSearchType()" style="width: 100%;">
+                                    <option>Select Search Type</option>
+                                    <option>Brand</option>
+                                    <option>Code</option>
+                                    <option>Storage</option>
+                                    <option>Display</option>
+                                    <option>Battery</option>
+                                    <option>Front Camera</option>
+                                    <option>Rear Camera</option>
+                                </select>
+                            </div>
+                            <div style="padding-bottom: 10px">
+                                <label>Search Results:</label>
+                                <select id="results"  name="results" style="width: 100%;">
+                                    <option>Search Results</option>
+                                </select>
+
+                            </div>
+                            <input class="btn-success pull-left" type="button" value="Search" onclick="searchOnResults();">
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#FilterPrice" aria-expanded="false" aria-controls="FilterPrice">Filter by Price</button>
+
+                    <div class="collapse" id="FilterPrice" style="padding-top: 10px">
+
+                        <form id="form2" name="form2">
+                            <div>
+                                <label>Maximum Price:</label>
+                                <select name="max_price" id="max_price" style="width: 100%;">
+                                    <option>Maximum</option>
+                                    <option>200000</option>
+                                    <option>150000</option>
+                                    <option>100000</option>
+                                    <option>75000</option>
+                                    <option>50000</option>
+                                    <option>25000</option>
+                                </select>
+                            </div>
+                            <div style="padding-bottom: 10px">
+                                <label>Minimum Price:</label>
+                                <select name="min_price" id="min_price" style="width: 100%;">
+                                    <option>Minimum</option>
+                                    <option>200000</option>
+                                    <option>150000</option>
+                                    <option>100000</option>
+                                    <option>75000</option>
+                                    <option>50000</option>
+                                    <option>25000</option>
+                                </select>
+                            </div>
+                            <input class="btn-success pull-left" type="button" value="Search" onclick="searchOnPrice();">
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="row">
+
+            <div id="finalRes">
+
+                <%
+                    ArrayList<phones> pd = (ArrayList<phones>)request.getAttribute("phone_details");
+                    ArrayList<comments> cd = (ArrayList<comments>)request.getAttribute("comment_details");
+                %>
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Phone ID</th>
+                        <th>Brand</th>
+                        <th>Code</th>
+                        <th>Storage</th>
+                        <th>Display</th>
+                        <th>Battery</th>
+                        <th>Front Cam</th>
+                        <th>Rear Cam</th>
+                        <th>Price</th>
+                        <th>Comments</th>
+                    </tr>
 
 
-        <%
-        for(int i=0; i<pd.size(); i++){
-        %>
+                    <%
+                        for(int i=0; i<pd.size(); i++){
+                    %>
 
-        <tr>
-        <td><%= pd.get(i).getPhone_id()%></td>
-        <td><%= pd.get(i).getBrand()%></td>
-        <td><%= pd.get(i).getCode()%></td>
-        <td><%= pd.get(i).getStorage()%></td>
-        <td><%= pd.get(i).getDisplay()%></td>
-        <td><%= pd.get(i).getBattery()%></td>
-        <td><%= pd.get(i).getFront_cam()%></td>
-        <td><%= pd.get(i).getRear_cam()%></td>
-        <td><%= pd.get(i).getPrice()%></td>
-        <td>
-            <%
-                for(int y=0; y<cd.size(); y++){
-                    if(cd.get(y).getPhone_id() == pd.get(i).getPhone_id()){
-            %><i class="fa fa-comments" aria-hidden="true"></i><%= cd.get(y).getCmnt()%><br><%
-                }
-            }
-        %>
-        </td>
-        </tr>
-        <%
+                    <tr>
+                        <td><%= pd.get(i).getPhone_id()%></td>
+                        <td><%= pd.get(i).getBrand()%></td>
+                        <td><%= pd.get(i).getCode()%></td>
+                        <td><%= pd.get(i).getStorage()%></td>
+                        <td><%= pd.get(i).getDisplay()%></td>
+                        <td><%= pd.get(i).getBattery()%></td>
+                        <td><%= pd.get(i).getFront_cam()%></td>
+                        <td><%= pd.get(i).getRear_cam()%></td>
+                        <td><%= pd.get(i).getPrice()%></td>
+                        <td>
+                            <%
+                                for(int y=0; y<cd.size(); y++){
+                                    if(cd.get(y).getPhone_id() == pd.get(i).getPhone_id()){
+                            %><i class="fa fa-comments" aria-hidden="true"></i><%= cd.get(y).getCmnt()%><br><%
+                                }
+                            }
+                        %>
+                        </td>
+                    </tr>
+                    <%
 
-        }
-        %>
+                        }
+                    %>
 
-        </table>
+                </table>
+            </div>
+
+        </div>
+
         </section>
 
 
@@ -297,7 +546,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="${pageContext.request.contextPath}/dist/js/demo.js"></script>
 
-<script src="${pageContext.request.contextPath}/dist/swtAlert/sweetalert.min.js"></script>
 
 
 
