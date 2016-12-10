@@ -320,4 +320,135 @@ public class dbConnection {
 
         return searchDetails;
     }
+
+    public ArrayList<phones> getPriceSearchRes(String max_price, String min_price) throws SQLException {
+        String query1 = "";
+        String query2 = "";
+        String commentQu = "";
+
+        double maximum;
+        double minimum;
+
+        int count = 0;
+        int index = 0;
+        ArrayList<phones> searchDetails = new ArrayList<phones>();
+
+        PreparedStatement preparedStmtQur1;
+        PreparedStatement preparedStmtQur2;
+
+        if(max_price.equals("Maximum") && min_price.equals("Minimum")){
+            query1 = "SELECT COUNT(*) AS count FROM phones";
+            query2 = "SELECT * FROM phones";
+
+            rs = st.executeQuery(query1);
+
+            if(rs.next()){
+                count = rs.getInt("count");
+            }
+
+            rs = st.executeQuery(query2);
+
+        }
+        else if(max_price.equals("Maximum") && !(min_price.equals("Minimum"))){
+
+            minimum = Double.parseDouble(min_price);
+
+            query1 = "SELECT COUNT(*) AS count FROM phones WHERE price >= ?";
+            query2 = "SELECT * FROM phones WHERE price >= ?";
+
+            preparedStmtQur1 = con.prepareStatement(query1);
+            preparedStmtQur1.setDouble(1, minimum);
+            rs = preparedStmtQur1.executeQuery();
+
+            if(rs.next()){
+                count = rs.getInt("count");
+            }
+
+            preparedStmtQur2 = con.prepareStatement(query2);
+            preparedStmtQur2.setDouble(1, minimum);
+            rs = preparedStmtQur2.executeQuery();
+
+        }
+        else if(!(max_price.equals("Maximum")) && min_price.equals("Minimum")) {
+
+            maximum = Double.parseDouble(max_price);
+
+            query1 = "SELECT COUNT(*) AS count FROM phones WHERE price <= ?";
+            query2 = "SELECT * FROM phones WHERE price <= ?";
+
+            preparedStmtQur1 = con.prepareStatement(query1);
+            preparedStmtQur1.setDouble(1, maximum);
+            rs = preparedStmtQur1.executeQuery();
+
+            if(rs.next()){
+                count = rs.getInt("count");
+            }
+
+            preparedStmtQur2 = con.prepareStatement(query2);
+            preparedStmtQur2.setDouble(1, maximum);
+            rs = preparedStmtQur2.executeQuery();
+
+        }
+
+        else if(!(max_price.equals("Maximum")) && !(min_price.equals("Minimum"))) {
+
+            maximum = Double.parseDouble(max_price);
+            minimum = Double.parseDouble(min_price);
+
+            query1 = "SELECT COUNT(*) AS count FROM phones WHERE price >= ? AND price <= ?";
+            query2 = "SELECT * FROM phones WHERE price >= ? AND price <= ?";
+
+            preparedStmtQur1 = con.prepareStatement(query1);
+            preparedStmtQur1.setDouble(1, minimum);
+            preparedStmtQur1.setDouble(2, maximum);
+            rs = preparedStmtQur1.executeQuery();
+
+            if(rs.next()){
+                count = rs.getInt("count");
+            }
+
+            preparedStmtQur2 = con.prepareStatement(query2);
+            preparedStmtQur2.setDouble(1, minimum);
+            preparedStmtQur2.setDouble(2, maximum);
+            rs = preparedStmtQur2.executeQuery();
+
+        }
+
+        else{
+
+        }
+
+        phones[] phoneDetails = new phones[count];
+
+        while(rs.next()){
+            phoneDetails[index] = new phones();
+            phoneDetails[index].setPhone_id(rs.getInt("phone_id"));
+            phoneDetails[index].setBrand(rs.getString("brand"));
+            phoneDetails[index].setCode(rs.getString("code_id"));
+            phoneDetails[index].setStorage(rs.getString("storage"));
+            phoneDetails[index].setDisplay(rs.getString("display"));
+            phoneDetails[index].setBattery(rs.getString("battery"));
+            phoneDetails[index].setFront_cam(rs.getString("front_cam"));
+            phoneDetails[index].setRear_cam(rs.getString("rear_cam"));
+            phoneDetails[index].setPrice(rs.getDouble("price"));
+
+            commentQu = "SELECT comment FROM comments WHERE phone_id = ?";
+            preparedStmtQur1 = con.prepareStatement(commentQu);
+            preparedStmtQur1.setInt(1, phoneDetails[index].getPhone_id());
+            rs2 = preparedStmtQur1.executeQuery();
+
+            while(rs2.next()){
+                phoneDetails[index].comments.add(rs2.getString("comment"));
+            }
+
+            index ++;
+
+        }
+
+        for (int i=0; i<phoneDetails.length; i++){
+            searchDetails.add(phoneDetails[i]);
+        }
+
+        return searchDetails;
+    }
 }

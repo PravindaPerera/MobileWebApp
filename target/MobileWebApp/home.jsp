@@ -54,27 +54,87 @@
 
     </script>
 
-    <%--<script>--%>
-
-        <%--$(document).on("click", "#searchOnResults", function() {--%>
-            <%--alert("ccxc")// When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...--%>
-            <%--$.post("${pageContext.request.contextPath}/finalSearch", function(responseJson) {    // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...--%>
-                <%--var $ul = $("<tr>").appendTo($("#finalRes"));--%>
-                <%--$.each(responseJson, function(index, item) {--%>
-
-                    <%--$("<td>").text(item).appendTo($ul);      // Create HTML <li> element, set its text content with currently iterated item and append it to the <ul>.--%>
-                <%--});--%>
-            <%--});--%>
-        <%--});--%>
-
-    <%--</script>--%>
-
     <script>
         function searchOnResults() {
             $.ajax({
                         url:'${pageContext.request.contextPath}/finalSearch',
                         data:{search_type: document.getElementById("search_type").value,
                             results: document.getElementById("results").value},
+                        type:'post',
+                        cache:false,
+                        success:function(responseJson){
+                            var select = $("#finalRes");
+                            select.empty();
+                            alert(responseJson);
+                            var myJSONText = JSON.stringify(responseJson);
+                            var obj = JSON.parse(myJSONText);
+                            alert(obj);
+                            var html = '<table class="table table-bordered">\n\
+                            <tr>\n\
+                            <th>Phone ID</th>\n\
+                            <th>Brand</th>\n\
+                            <th>Code</th>\n\
+                            <th>Storage</th>\n\
+                            <th>Display</th>\n\
+                            <th>Battery</th>\n\
+                            <th>Front Cam</th>\n\
+                            <th>Rear Cam</th>\n\
+                            <th>Price</th>\n\
+                            <th>Comments</th>\n\
+                            </tr>';
+
+
+                            for (var i = 0; i < obj.length; i++) {
+                                html += '<tr>';
+                                html += '<td>' + obj[i].phone_id
+                                        + '</td>';
+                                html += '<td>' + obj[i].brand
+                                        + '</td>';
+                                html += '<td>' + obj[i].code
+                                        + '</td>';
+                                html += '<td>' + obj[i].storage
+                                        + '</td>';
+                                html += '<td>' + obj[i].display
+                                        + '</td>';
+                                html += '<td>' + obj[i].battery
+                                        + '</td>';
+                                html += '<td>' + obj[i].front_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].rear_cam
+                                        + '</td>';
+                                html += '<td>' + obj[i].price
+                                        + '</td>';
+                                html += '<td>';
+                                for(var j=0; j<obj[i].comments.length; j++){
+                                    html += '<i class="fa fa-comments" aria-hidden="true"></i>' + obj[i].comments[j]
+                                            + '<br>';
+                                }
+                                html += '</td>';
+                                html += '</tr>';
+                            }
+
+                            html += '<table>';
+
+                            $('#finalRes').html(html);
+
+
+                        },
+                        error:function(){
+                            alert('error');
+                        }
+                    }
+            );
+
+        }
+
+    </script>
+
+    <script>
+        function searchOnPrice() {
+            $.ajax({
+                        url:'${pageContext.request.contextPath}/priceSearch',
+                        data:{max_price: document.getElementById("max_price").value,
+                            min_price: document.getElementById("min_price").value},
                         type:'post',
                         cache:false,
                         success:function(responseJson){
@@ -269,6 +329,34 @@
                 <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#FilterPrice" aria-expanded="false" aria-controls="FilterPrice">Filter by Price</button>
 
                 <div class="collapse" id="FilterPrice" style="padding-top: 10px">
+
+                    <form id="form2" name="form2">
+                        <div>
+                            <label>Maximum Price:</label>
+                            <select name="max_price" id="max_price" style="width: 100%;">
+                                <option>Maximum</option>
+                                <option>200000</option>
+                                <option>150000</option>
+                                <option>100000</option>
+                                <option>75000</option>
+                                <option>50000</option>
+                                <option>25000</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Minimum Price:</label>
+                            <select name="min_price" id="min_price" style="width: 100%;">
+                                <option>Minimum</option>
+                                <option>200000</option>
+                                <option>150000</option>
+                                <option>100000</option>
+                                <option>75000</option>
+                                <option>50000</option>
+                                <option>25000</option>
+                            </select>
+                        </div>
+                        <input class="btn-success pull-left" type="button" value="Search" onclick="searchOnPrice();">
+                    </form>
 
                 </div>
             </div>
