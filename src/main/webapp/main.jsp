@@ -213,10 +213,7 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- Notifications: style can be found in dropdown.less -->
-                    <!-- Tasks: style can be found in dropdown.less -->
-                    <!-- User Account: style can be found in dropdown.less -->
+
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="dist/img/profile_pic.png" class="user-image" alt="User Image">
@@ -416,13 +413,7 @@
 
         <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

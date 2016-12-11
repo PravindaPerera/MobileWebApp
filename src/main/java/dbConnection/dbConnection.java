@@ -203,38 +203,7 @@ public class dbConnection {
 
         return comment;
     }
-    
-    public phones[] getPhonesByBrand(String brand) throws SQLException {
-        int count = 0;
-        int index = 0;
-        String query = "SELECT COUNT(*) AS total FROM phones WHERE brand = 'Samsung'";
-        rs = st.executeQuery(query);
 
-        if(rs.next()){
-            count = rs.getInt("total");
-        }
-
-        phones[] phoneDetails = new phones[count];
-
-        query = "SELECT * FROM phones WHERE brand = 'Samsung'";
-        rs = st.executeQuery(query);
-
-        while(rs.next()){
-            phoneDetails[index] = new phones();
-            phoneDetails[index].setPhone_id(rs.getInt("phone_id"));
-            phoneDetails[index].setBrand(rs.getString("brand"));
-            phoneDetails[index].setCode(rs.getString("code_id"));
-            phoneDetails[index].setStorage(rs.getString("storage"));
-            phoneDetails[index].setDisplay(rs.getString("display"));
-            phoneDetails[index].setBattery(rs.getString("battery"));
-            phoneDetails[index].setFront_cam(rs.getString("front_cam"));
-            phoneDetails[index].setRear_cam(rs.getString("rear_cam"));
-            phoneDetails[index].setPrice(rs.getDouble("price"));
-            index ++;
-        }
-
-        return phoneDetails;
-    }
 
     public ArrayList<String> getSearchDetails(String search_type) throws SQLException {
         String query = "";

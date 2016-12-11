@@ -35,6 +35,5 @@ public class FilterServlet extends HttpServlet{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //req.getRequestDispatcher("/home.jsp").forward(req,resp);
     }
 }

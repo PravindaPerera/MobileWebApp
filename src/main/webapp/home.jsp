@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Pravinda Perera
-  Date: 12/5/2016
-  Time: 6:50 AM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="services.phones" %>
 <%@ page import="services.comments" %>
@@ -294,10 +288,7 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- Notifications: style can be found in dropdown.less -->
-                    <!-- Tasks: style can be found in dropdown.less -->
-                    <!-- User Account: style can be found in dropdown.less -->
+
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="${pageContext.request.contextPath}/dist/img/profile_pic.jpg" class="user-image" alt="User Image">
@@ -499,17 +490,8 @@
         </section>
 
 
-        <!-- Main content -->
-
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

@@ -16,17 +16,7 @@ import java.util.ArrayList;
 public class HelloServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        int status = 0;
-//        if(req.getAttribute("from").equals("errorLogin")){
-//            status = 1;
-//            req.setAttribute("status", status);
-//            System.out.println(status);
-//        }
-//
-//        else{
-//            status = 0;
-//            req.setAttribute("status", status);
-//        }
+
         dbConnection.dbConnection databaseCon = new dbConnection.dbConnection();
         System.out.println("Loginfail->get");
         System.out.println(req.getServletPath());
